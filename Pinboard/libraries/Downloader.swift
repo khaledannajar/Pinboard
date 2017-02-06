@@ -8,12 +8,13 @@
 
 import Foundation
 
-protocol DownloadObserver {
-    func downloaded(item: Any)
+protocol DownloadObserver: class {
+    typealias Model = NSObject
+    func downloaded(item: Data)
     func downloadFailed(forUrl url: String)
 }
 enum DownloadState {
-    case none, pending, waiting, started, finished, failed
+    case none, pending, finished, failed
 }
 
 class Downloader {
@@ -24,28 +25,31 @@ class Downloader {
     private var downloads = [String : DownloadItem]()
     
     func download(url: String, observer: DownloadObserver) {
-    
+        
         if deliverFromCache(url: url, observer: observer) {
-           return
+            return
         }
         
         var downloadItem = self.downloads[url]
-        if downloadItem != nil {
-            if downloadItem!.state == .pending {
-                return
-            }
-        } else {
+        
+        if downloadItem == nil {
             downloadItem = DownloadItem(url: url, observer: observer)
-            self.downloads[url] =  downloadItem
-            
-            doDownload(downloadItem: downloadItem!)
         }
+        
+        if downloadItem!.state == .pending {
+            return
+        }
+        
+        self.downloads[url] =  downloadItem
+        
+        doDownload(downloadItem: downloadItem!)
+        
     }
     
     private func deliverFromCache(url: String, observer: DownloadObserver) -> Bool {
-        let downloadedItem = cacheManager.getItem(url: url)
-        if downloadedItem != nil {
-            observer.downloaded(item: downloadedItem!)
+        let cachedItem = cacheManager.getItem(url: url)
+        if cachedItem != nil {
+            observer.downloaded(item: cachedItem!)
             return true
         }
         return false
@@ -53,14 +57,35 @@ class Downloader {
     
     private func doDownload (downloadItem: DownloadItem) {
         
+        let dataTask = URLSession.shared.dataTask(with: URL(string: downloadItem.url)!) { (data, response, error) in
+            
+            guard data != nil else {
+                downloadItem.notifyFailure()
+                return
+            }
+            downloadItem.notifySuccess(data: data!)
+            
+        }
+        dataTask.resume()
+        
+        downloadItem.downloadTask = dataTask
+        downloadItem.state = .pending
+    }
+    
+    func cancelDownload(url: String, observer: DownloadObserver) {
+        let downloadItem = downloads[url]
+        if downloadItem != nil {
+            downloadItem?.downloadTask?.cancel()
+        }
     }
 }
 
 class DownloadItem {
-    private(set) public var state: DownloadState = .none
+    var state: DownloadState = .none
+    private(set) public var downloadedItem: Data?
     private var observers = [DownloadObserver]()
-    private var url: String
-    private var downloadedItem: Any?
+    var url: String
+    var downloadTask: URLSessionDataTask?
     
     init(url: String, observer: DownloadObserver) {
         self.url = url
@@ -78,31 +103,16 @@ class DownloadItem {
         // second thought check status if
     }
     
-    fileprivate func change(downloadState: DownloadState) {
-        switch downloadState {
-        case .failed:
-            notifyFailure()
-            break
-        case .finished:
-            notifySuccess()
-            break
-            // for now we won't do a thing in these states may be helpful in cancelling
-        case .none:
-            break
-        case .pending:
-            break
-        case .started:
-            break
-        case .waiting:
-            break
+    func removeObserver(observerToRemove: DownloadObserver) {
+        for (index, observer) in self.observers.enumerated() {
+            if observer === observerToRemove {
+                self.observers.remove(at: index)
+            }
         }
-        self.state = downloadState
     }
-    func notifySuccess() {
-        guard downloadedItem != nil else {
-            notifyFailure()
-            return
-        }
+    func notifySuccess(data: Data) {
+        downloadedItem = data
+        self.state = .finished
         
         for observer in observers {
             observer.downloaded(item: downloadedItem!)
@@ -110,6 +120,7 @@ class DownloadItem {
     }
     func notifyFailure()
     {
+        self.state = .failed
         for observer in observers {
             observer.downloadFailed(forUrl: url)
         }

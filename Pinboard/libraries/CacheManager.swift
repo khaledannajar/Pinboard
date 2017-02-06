@@ -18,7 +18,7 @@ class CacheConfigs {
     }
 }
 class CacheManager {
-    let shared = CacheManager(configs: CacheConfigs())
+    static let shared = CacheManager(configs: CacheConfigs.default())
     
     var configs: CacheConfigs
     private var cached = [String : CachedItem]()
@@ -36,7 +36,7 @@ class CacheManager {
         }
     }
     
-    func getItem(url: String) -> Any? {
+    func getItem(url: String) -> Data? {
         return cached[url]?.getItem()
     }
     
@@ -63,18 +63,18 @@ class CacheManager {
 
 class CachedItem {
     private let url: String
-    private let item: Any
+    private let item: Data
     
     private let createdTime: Date
     private(set) public var requestedTimes: Int = 0
     
-    init(url: String, item: Any) {
+    init(url: String, item: Data) {
         self.url = url
         self.item = item
         self.createdTime = Date()
     }
     
-    func getItem() -> Any{
+    func getItem() -> Data{
         requestedTimes += 1
         return item
     }
