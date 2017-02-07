@@ -12,6 +12,7 @@ import SwiftyJSON
 class BoardTableViewController: UITableViewController, DownloadObserver {
 
     var pins = [PinterestItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +23,7 @@ class BoardTableViewController: UITableViewController, DownloadObserver {
         Downloader.shared.download(url: "http://pastebin.com/raw/wgkJgazE", observer: self)
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
+    
     func downloaded(item: Data)
     {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -37,13 +39,11 @@ class BoardTableViewController: UITableViewController, DownloadObserver {
         }
 
     }
-    func downloadFailed(forUrl url: String)
-    {
+    func downloadFailed(forUrl url: String, error: Error) {
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        let alert = UIAlertController(title: "Error", message: "Failed with error", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { action in
-        })
-        self.present(alert, animated: true) {}
+        
+        Helper.displayAlert(title: "Error", message: "Failed with error \(error.localizedDescription)", inViewController: self)
     }
 
     // MARK: - Table view data source
@@ -61,16 +61,34 @@ class BoardTableViewController: UITableViewController, DownloadObserver {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let pin = pins[indexPath.row];
         
+        //TODO: simplify this
         if let cell = cell as? PinTableViewCell {
-//            cell.pinImageView.image
+            cell.pinImageView.image = UIImage(named: "placeholder")
+            
+            if pin.urls?.small != nil {
+                Downloader.shared.download(url: (pin.urls?.small)!, successBlock: { (data) in
+                    let image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        
+                        UIView.transition(with: cell.pinImageView,
+                                          duration: 0.36,
+                                          options: .transitionCrossDissolve,
+                                          animations: {
+                                            cell.pinImageView.image = image
+                        },
+                                          completion: nil)
+                    }
+                }, failureBlock: { (error) in
+                    print("downloading image with url:\(pin.urls?.small) error: \(error)")
+                })
+            }
+            
             cell.userNameLabel.text = pin.user?.name
         }
 //        pin.user?.name
 //        pin.user?.profileImage?.small
 //        pin.urls?.small
         
-        
-        // Configure the cell...
 
         return cell
     }

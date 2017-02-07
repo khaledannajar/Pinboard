@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		297787C61E45BD0800DD0EB8 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297787C51E45BD0800DD0EB8 /* CacheManager.swift */; };
 		297787CB1E45C11200DD0EB8 /* BoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297787CA1E45C11200DD0EB8 /* BoardTableViewController.swift */; };
+		2982DA791E48F1E000BE3978 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2982DA781E48F1E000BE3978 /* Helper.swift */; };
 		29F3B2151E452D7100EDF9A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F3B2141E452D7100EDF9A8 /* AppDelegate.swift */; };
 		29F3B21A1E452D7100EDF9A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29F3B2181E452D7100EDF9A8 /* Main.storyboard */; };
 		29F3B21C1E452D7100EDF9A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29F3B21B1E452D7100EDF9A8 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		26A451A426F838352893C17C /* Pods_Pinboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pinboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		297787C51E45BD0800DD0EB8 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		297787CA1E45C11200DD0EB8 /* BoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewController.swift; sourceTree = "<group>"; };
+		2982DA781E48F1E000BE3978 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		29F3B2111E452D7100EDF9A8 /* Pinboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pinboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29F3B2141E452D7100EDF9A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29F3B2191E452D7100EDF9A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				29F3B2441E45313D00EDF9A8 /* Downloader.swift */,
 				297787C51E45BD0800DD0EB8 /* CacheManager.swift */,
+				2982DA781E48F1E000BE3978 /* Helper.swift */,
 			);
 			path = libraries;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2982DA791E48F1E000BE3978 /* Helper.swift in Sources */,
 				29F3B23E1E452DD500EDF9A8 /* ProfileImage.swift in Sources */,
 				297787C61E45BD0800DD0EB8 /* CacheManager.swift in Sources */,
 				29F3B2151E452D7100EDF9A8 /* AppDelegate.swift in Sources */,

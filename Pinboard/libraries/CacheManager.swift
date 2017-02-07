@@ -36,6 +36,14 @@ class CacheManager {
         }
     }
     
+    func set(url: String, item: Data) {
+        var cachedItem = cached[url]
+        if cachedItem == nil {
+            cachedItem = CachedItem(url: url, item: item)
+            cached[url] = cachedItem
+        }
+    }
+    
     func getItem(url: String) -> Data? {
         return cached[url]?.getItem()
     }
