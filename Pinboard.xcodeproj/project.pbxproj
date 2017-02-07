@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2973E14A1E49A50F00E52596 /* PinsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2973E1491E49A50F00E52596 /* PinsViewModel.swift */; };
 		297787C61E45BD0800DD0EB8 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297787C51E45BD0800DD0EB8 /* CacheManager.swift */; };
 		297787CB1E45C11200DD0EB8 /* BoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297787CA1E45C11200DD0EB8 /* BoardTableViewController.swift */; };
 		2982DA791E48F1E000BE3978 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2982DA781E48F1E000BE3978 /* Helper.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		25E8B6516132FA57179A7CEA /* Pods_PinboardTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PinboardTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26A451A426F838352893C17C /* Pods_Pinboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pinboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2973E1491E49A50F00E52596 /* PinsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinsViewModel.swift; sourceTree = "<group>"; };
 		297787C51E45BD0800DD0EB8 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		297787CA1E45C11200DD0EB8 /* BoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewController.swift; sourceTree = "<group>"; };
 		2982DA781E48F1E000BE3978 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -84,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2973E1481E49A4FD00E52596 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2973E1491E49A50F00E52596 /* PinsViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
 		297787C71E45BD6500DD0EB8 /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 				29F3B2411E452DEC00EDF9A8 /* views */,
 				29F3B2421E452DF700EDF9A8 /* resources */,
 				29F3B2141E452D7100EDF9A8 /* AppDelegate.swift */,
+				2973E1481E49A4FD00E52596 /* ViewModels */,
 				297787C71E45BD6500DD0EB8 /* controller */,
 				29F3B2431E45312E00EDF9A8 /* libraries */,
 			);
@@ -251,6 +262,7 @@
 				TargetAttributes = {
 					29F3B2101E452D7100EDF9A8 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = YEGQ5EMMEJ;
 						ProvisioningStyle = Automatic;
 					};
 					29F3B2241E452D7200EDF9A8 = {
@@ -397,6 +409,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2973E14A1E49A50F00E52596 /* PinsViewModel.swift in Sources */,
 				2982DA791E48F1E000BE3978 /* Helper.swift in Sources */,
 				29F3B23E1E452DD500EDF9A8 /* ProfileImage.swift in Sources */,
 				297787C61E45BD0800DD0EB8 /* CacheManager.swift in Sources */,
@@ -547,6 +560,7 @@
 			baseConfigurationReference = E6339D0D680561273F929754 /* Pods-Pinboard.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YEGQ5EMMEJ;
 				INFOPLIST_FILE = Pinboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mindvalley.Pinboard;
@@ -560,6 +574,7 @@
 			baseConfigurationReference = E123C96D5FB95A450ADFF08F /* Pods-Pinboard.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YEGQ5EMMEJ;
 				INFOPLIST_FILE = Pinboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mindvalley.Pinboard;

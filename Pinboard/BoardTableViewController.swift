@@ -9,43 +9,35 @@
 import UIKit
 import SwiftyJSON
 
-class BoardTableViewController: UITableViewController, DownloadObserver {
+class BoardTableViewController: UITableViewController {
 
+    let notificationName = Notification.Name("com.mindvalley.pinsboard.pinsRetreived")
+    
     var pins = [PinterestItem]()
+    let pinsViewModel = PinsViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        callService()
+        pinsViewModel.callService()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: notificationName, object: nil)
     }
     
-    func callService() {
-        Downloader.shared.download(url: "http://pastebin.com/raw/wgkJgazE", observer: self)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    func downloaded(item: Data)
-    {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        let results = JSON(item)
-        if results.array != nil {
-            for object in results.array! {
-                let item = PinterestItem.init(json: object)
-                self.pins.append(item)
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+    func updateUI(_ notification: NSNotification) {
+        
+        if let error = notification.userInfo?["error"] as? NSError {
+            Helper.displayAlert(title: "Error", message: "Failed with error \(error.localizedDescription)", inViewController: self)
+            return
         }
-
-    }
-    func downloadFailed(forUrl url: String, error: Error) {
         
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        self.pins = pinsViewModel.pins
         
-        Helper.displayAlert(title: "Error", message: "Failed with error \(error.localizedDescription)", inViewController: self)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -71,7 +63,7 @@ class BoardTableViewController: UITableViewController, DownloadObserver {
                     DispatchQueue.main.async {
                         
                         UIView.transition(with: cell.pinImageView,
-                                          duration: 0.36,
+                                          duration: 0.9,
                                           options: .transitionCrossDissolve,
                                           animations: {
                                             cell.pinImageView.image = image
